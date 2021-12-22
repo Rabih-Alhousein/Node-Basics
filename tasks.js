@@ -34,7 +34,7 @@ function startApp(name) {
  * @returns {void}
  */
 function onDataReceived(text) {
-  text=text.replace(/\n/,'').trim()
+  text = text.replace(/\n/, '').trim()
   if (text === 'quit\n' || text === 'exit') {
     quit();
   }
@@ -45,11 +45,17 @@ function onDataReceived(text) {
   else if (text === 'help') {
     help();
   }
+  else if (text === 'list') {
+    list();
+  }
   else {
 
     unknownCommand(text);
   }
 }
+
+
+tasks = ["task1", "task2"]
 
 
 /**
@@ -73,6 +79,28 @@ function hello(text) {
   text = text.split(" ")
   console.log('hello! ' + (text[1] || ''))
 }
+
+
+/**
+ * list 
+ *
+ * @returns {void}
+ */
+function list() {
+  console.log("This is the list of all tasks")
+  for (let i in tasks) {
+    console.log("task " + (i*1+1)+ ": " + tasks[i] + '\n')
+  }
+}
+
+
+
+
+
+
+
+
+
 
 
 /**
