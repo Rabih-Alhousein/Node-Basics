@@ -9,7 +9,7 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
- function startApp(name) {
+function startApp(name) {
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
@@ -19,44 +19,44 @@
 
 
 /**
-* Decides what to do depending on the data that was received
-* This function receives the input sent by the user.
-* 
-* For example, if the user entered 
-* ```
-* node tasks.js batata
-* ```
-* 
-* The text received would be "batata"
-* This function  then directs to other functions
-* 
-* @param  {string} text data typed by the user
-* @returns {void}
-*/
+ * Decides what to do depending on the data that was received
+ * This function receives the input sent by the user.
+ * 
+ * For example, if the user entered 
+ * ```
+ * node tasks.js batata
+ * ```
+ * 
+ * The text received would be "batata"
+ * This function  then directs to other functions
+ * 
+ * @param  {string} text data typed by the user
+ * @returns {void}
+ */
 function onDataReceived(text) {
-  text = text.replace(/\n/, '').trim()
-  if (text === 'quit\n' || text === 'exit') {
-      quit();
+  text = text.replace(/\n/, '').trim().split()
+  if (text[0] === 'quit\n' || text[0] === 'exit') {
+    quit();
   }
 
-  else if (text.startsWith('hello')) {
-      hello(text);
+  else if (text[0] === 'hello') {
+    hello(text);
   }
   else if (text === 'help') {
-      help();
+    help();
   }
   else if (text === 'list') {
-      list();
+    list();
   }
-  else if (text.startsWith('add')) {
-      add(text);
+  else if (text[0] === 'add') {
+    add(text);
   }
-  else if (text.startsWith('remove')) {
-      remove(text);
+  else if (text[0] === 'remove') {
+    remove(text);
   }
   else {
-
-      unknownCommand(text);
+    text=text.join(" ")
+    unknownCommand(text);
   }
 }
 
@@ -65,58 +65,59 @@ var tasks = ["task1", "task2"]
 
 
 /**
-* prints "unknown command"
-* This function is supposed to run when all other commands have failed
-*
-* @param  {string} c the text received
-* @returns {void}
-*/
+ * prints "unknown command"
+ * This function is supposed to run when all other commands have failed
+ *
+ * @param  {string} c the text received
+ * @returns {void}
+ */
 function unknownCommand(c) {
   console.log('unknown command: "' + c.trim() + '"')
 }
 
 
 /**
-* Says hello
-*
-* @returns {void}
-*/
+ * Says hello
+ *
+ * @returns {void}
+ */
 function hello(text) {
-  text = text.split(" ")
   console.log('hello! ' + (text[1] || ''))
 }
 
 
 /**
-* list 
-*
-* @returns {void}
-*/
+ * list 
+ *
+ * @returns {void}
+ */
 function list() {
   console.log("This is the list of all tasks\n")
   for (let i in tasks) {
-      console.log("task " + (i * 1 + 1) + ": " + tasks[i] + '\n')
+    console.log("task " + (i * 1 + 1) + ": " + tasks[i] + '\n')
   }
 }
 
 
 /**
-* list add task
-*
-* @returns {void}
-*/
+ * list add task
+ *
+ * @returns {void}
+ */
 function add(text) {
-  text == "add" ? console.log("Error") : tasks.push(text.substring(4))
+  text === "add" ? console.log("Error") : tasks.push(text.shift().join(" "))
 }
 
 
 /**
-* list remove task
-*
-* @returns {void}
-*/
+ * list remove task
+ *
+ * @returns {void}
+ */
 function remove(text) {
   text = text.split(" ")
+  console.log(text[1] - 1)
+  console.log(tasks.length)
   text == "remove" ? tasks.pop() : !isNaN(text[1]) && text[1] <= tasks.length ? tasks.splice(text[1] - 1, 1) : console.log("item does not exist")
 }
 
@@ -132,10 +133,10 @@ function remove(text) {
 
 
 /**
-*  help 
-*
-* @returns {void}
-*/
+ *  help 
+ *
+ * @returns {void}
+ */
 function help() {
   console.log(`
   command\t\tdesciption
@@ -151,10 +152,10 @@ function help() {
 
 
 /**
-* Exits the application
-*
-* @returns {void}
-*/
+ * Exits the application
+ *
+ * @returns {void}
+ */
 function quit() {
   console.log('Quitting now, goodbye!')
   process.exit();
