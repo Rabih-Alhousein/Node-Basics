@@ -142,6 +142,10 @@ function help() {
   ----------------------------------
   hello\t\t\tgreeting .
   hello x\t\tgreeting x
+  list\t\t\tlist of tasks
+  add x\t\t\tadd task x
+  remove\t\tremove last task
+  remove x\t\tremove task number x
   quit OR exit\t\t\end the application
   help\t\t\tto show command.
   ----------------------------------
