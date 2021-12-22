@@ -37,7 +37,7 @@ function onDataReceived(text) {
     quit();
   }
 
-  else if (text.startsWith('hello')) {
+  else if (text.split(" ")[0] === ('hello')) {
     hello(text);
   }
   else if (text === "help") {
@@ -46,14 +46,20 @@ function onDataReceived(text) {
   else if (text === 'list') {
     list();
   }
-  else if (text.startsWith('add')) {
+  else if (text.split(" ")[0] === 'add') {
     add(text);
   }
-  else if (text.startsWith('remove')) {
+  else if (text.split(" ")[0] === 'remove') {
     remove(text);
   }
-  else if (text.startsWith('edit')) {
+  else if (text.split(" ")[0] === 'edit') {
     edit(text);
+  }
+  else if (text.split(" ")[0] === 'check') {
+    check(text);
+  }
+  else if (text.split(" ")[0] === 'uncheck') {
+    uncheck(text);
   }
   else {
 
@@ -131,7 +137,6 @@ function remove(text) {
 function edit(text) {
   text = text.split(' ')
   text == "edit" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][0] = text.slice(2).join(' ') : tasks[tasks.length - 1][0] = text.slice(1).join(' ')
-  /* if the user input a number bigger than the number of the tasks this will change the last item also */
 }
 
 
@@ -143,8 +148,7 @@ function edit(text) {
 */
 function check(text) {
   text = text.split(' ')
-  text == "check" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][0] = text.slice(2).join(' ') : tasks[tasks.length - 1][0] = text.slice(1).join(' ')
-  /* if the user input a number bigger than the number of the tasks this will change the last item also */
+  text == "check" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][1] = true : isNaN(text[1]) ? console.log("please enter the number of task to be checked") : console.log("item does not exist")
 }
 
 /**
@@ -154,8 +158,9 @@ function check(text) {
 */
 function uncheck(text) {
   text = text.split(' ')
-  text == "check" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][0] = text.slice(2).join(' ') : tasks[tasks.length - 1][0] = text.slice(1).join(' ')
-  /* if the user input a number bigger than the number of  tasks this will change the last item also */
+  text == "uncheck" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][1] = false : isNaN(text[1]) ? console.log("please enter the number of task to be checked") : console.log("item does not exist")
+  
+
 }
 
 
