@@ -9,15 +9,13 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
- function startApp(name) {
+function startApp(name) {
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
 }
-
-
 /**
 * Decides what to do depending on the data that was received
 * This function receives the input sent by the user.
@@ -36,27 +34,30 @@
 function onDataReceived(text) {
   text = text.replace(/\n/, '').trim()
   if (text === 'quit\n' || text === 'exit') {
-      quit();
+    quit();
   }
 
   else if (text.startsWith('hello')) {
-      hello(text);
+    hello(text);
   }
   else if (text === 'help') {
-      help();
+    help();
   }
   else if (text === 'list') {
-      list();
+    list();
   }
   else if (text.startsWith('add')) {
-      add(text);
+    add(text);
   }
   else if (text.startsWith('remove')) {
-      remove(text);
+    remove(text);
+  }
+  else if (text.startsWith('edit')) {
+    edit(text);
   }
   else {
 
-      unknownCommand(text);
+    unknownCommand(text);
   }
 }
 
@@ -95,7 +96,7 @@ function hello(text) {
 function list() {
   console.log("This is the list of all tasks\n")
   for (let i in tasks) {
-      console.log("task " + (i * 1 + 1) + ": " + tasks[i] + '\n')
+    console.log("task " + (i * 1 + 1) + ": " + tasks[i] + '\n')
   }
 }
 
@@ -109,7 +110,6 @@ function add(text) {
   text == "add" ? console.log("Error") : tasks.push(text.substring(4))
 }
 
-
 /**
 * list remove task
 *
@@ -117,14 +117,20 @@ function add(text) {
 */
 function remove(text) {
   text = text.split(" ")
-  text == "remove" ? tasks.pop() : !isNaN(text[1]) && text[1] <= tasks.length ? tasks.splice(text[1] - 1, 1) : console.log("item does not exist")
+  text == "remove" ? tasks.pop() : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks.splice(text[1] - 1, 1) : console.log("item does not exist")
 }
 
 
-
-
-
-
+/**
+* edit
+*
+* @returns {void}
+*/
+function edit(text) {
+  text = text.split(' ')
+  text == "edit" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1] = text.slice(2).join(' ') : tasks[tasks.length - 1] = text.slice(1).join(' ')
+  /* if the user input a number bigger than the number of the tasks this will change the last item also */
+}
 
 
 
@@ -146,6 +152,7 @@ function help() {
   add x\t\t\tadd task x
   remove\t\tremove last task
   remove x\t\tremove task number x
+  edit x\t\tedit task number x
   quit OR exit\t\t\end the application
   help\t\t\tto show command.
   ----------------------------------
