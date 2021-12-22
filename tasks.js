@@ -39,7 +39,7 @@ function onDataReceived(text) {
     quit();
   }
 
-  else if (text.split(" ")[0] === 'hello') {
+  else if (text.startsWith('hello')) {
     hello(text);
   }
   else if (text === 'help') {
@@ -47,6 +47,9 @@ function onDataReceived(text) {
   }
   else if (text === 'list') {
     list();
+  }
+  else if (text.startsWith('add')) {
+    add(text);
   }
   else {
 
@@ -87,11 +90,22 @@ function hello(text) {
  * @returns {void}
  */
 function list() {
-  console.log("This is the list of all tasks")
+  console.log("This is the list of all tasks\n")
   for (let i in tasks) {
-    console.log("task " + (i*1+1)+ ": " + tasks[i] + '\n')
+    console.log("task " + (i * 1 + 1) + ": " + tasks[i] + '\n')
   }
 }
+
+
+/**
+ * list add
+ *
+ * @returns {void}
+ */
+function add(text) {
+text=="add"? console.log("Error") : tasks.push(text.substring(4))
+}
+
 
 
 
