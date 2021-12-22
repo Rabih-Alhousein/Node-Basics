@@ -73,7 +73,7 @@ function hello() {
 
 
 /**
- * Says hello
+ *  help 
  *
  * @returns {void}
  */
