@@ -35,14 +35,14 @@ function startApp(name) {
  */
 function onDataReceived(text) {
   text=text.replace(/\n/,'').trim()
-  if (text === 'quit\n' || text === 'exit\n') {
+  if (text === 'quit\n' || text === 'exit') {
     quit();
   }
 
   else if (text.split(" ")[0] === 'hello') {
     hello(text);
   }
-  else if (text === 'help\n') {
+  else if (text === 'help') {
     help();
   }
   else {
@@ -84,7 +84,8 @@ function help() {
   console.log(`
   command\t\tdesciption
   ----------------------------------
-  hello\t\t\tgreeting user.
+  hello\t\t\tgreeting .
+  hello x\t\tgreeting x
   quit OR exit\t\t\end the application
   help\t\t\tto show command.
   ----------------------------------
