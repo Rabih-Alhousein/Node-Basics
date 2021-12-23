@@ -15,7 +15,7 @@ const fs = require('fs');
 
 function startApp(name) {
 
-  json = fs.readFile('tasks.json', (err, data) => {
+  json = fs.readFile('database.json', (err, data) => {
     if (err) {
       console.log('\u001b[' + 31 + 'm' + "NB: Couldn't read the JSON file" + '\u001b[0m')/* writing red message in console */
       throw err;
@@ -215,7 +215,7 @@ function help() {
 function quit() {
   console.log('Quitting now, goodbye!')
   const path = require('path');
-  fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), JSON.stringify(tasks));
+  fs.writeFileSync(path.resolve(__dirname, 'database.json'), JSON.stringify(tasks));
   process.exit();
 }
 
