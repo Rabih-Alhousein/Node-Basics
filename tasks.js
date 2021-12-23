@@ -12,28 +12,35 @@
 
 
 const fs = require('fs');
+var JsonFile
 
 function startApp(name) {
 
-  json = fs.readFile('database.json', (err, data) => {
-    if (err) {
-      console.log('\u001b[' + 31 + 'm' + "NB: Couldn't read the JSON file" + '\u001b[0m')/* writing red message in console */
-      throw err;
-    }
-    tasks = JSON.parse(data)
-  });
-  /*   try {
-      json = fs.readFile('tasks.json')
-      console.log(json)
-    }
-    catch (err) {
-      console.log(err)
-    } */
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
+  if (process.argv.length == 2) {
+    JsonFile = 'database.json'
+  } else if (process.argv.length == 3) {
+    JsonFile = process.argv[2]
+  } else {
+    console.log('\u001b[' + 41 + 'm' + "NB:please type the JSON file name only" + '\u001b[0m')
+    process.exit()
+  }
+
+  /* ============ Reading Json File =============*/
+  fs.readFile(JsonFile, (err, data) => {
+
+    if (err) {
+      console.log('\u001b[' + 41 + 'm' + "NB: Couldn't read the JSON file Check the file please and try again" + '\u001b[0m')/* writing red message in console */
+      process.exit()
+    } else {
+      tasks = JSON.parse(data)
+      console.log(JsonFile + " is open")
+    }
+  });
 }
 /**
 * Decides what to do depending on the data that was received
@@ -86,7 +93,7 @@ function onDataReceived(text) {
   }
 }
 
-var tasks = [["coding", true], ["english", false]]
+var tasks = []
 var undone = "[ ]"
 var done = "[✓]"
 
@@ -215,7 +222,7 @@ function help() {
 function quit() {
   console.log('Quitting now, goodbye!')
   const path = require('path');
-  fs.writeFileSync(path.resolve(__dirname, 'database.json'), JSON.stringify(tasks));
+  fs.writeFileSync(path.resolve(__dirname, JsonFile), JSON.stringify(tasks));
   process.exit();
 }
 
