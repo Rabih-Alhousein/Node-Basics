@@ -9,7 +9,26 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
+
+
+const fs = require('fs');
+
 function startApp(name) {
+
+  json = fs.readFile('tasks.json', (err, data) => {
+    if (err) {
+      console.log('\u001b[' + 31 + 'm' + "NB: Couldn't read the JSON file" + '\u001b[0m')/* writing red message in console */
+      throw err;
+    }
+    tasks = JSON.parse(data)
+  });
+  /*   try {
+      json = fs.readFile('tasks.json')
+      console.log(json)
+    }
+    catch (err) {
+      console.log(err)
+    } */
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
@@ -33,7 +52,7 @@ function startApp(name) {
 */
 function onDataReceived(text) {
   text = text.replace(/\n/, '').trim()
-  if (text === 'quit\n' || text === 'exit') {
+  if (text === 'quit' || text === 'exit') {
     quit();
   }
 
@@ -159,14 +178,9 @@ function check(text) {
 function uncheck(text) {
   text = text.split(' ')
   text == "uncheck" ? console.log("Error") : !isNaN(text[1]) && (text[1] <= tasks.length) ? tasks[text[1] - 1][1] = false : isNaN(text[1]) ? console.log("please enter the number of task to be checked") : console.log("item does not exist")
-  
+
 
 }
-
-
-
-
-
 
 
 /**
@@ -200,6 +214,8 @@ function help() {
 */
 function quit() {
   console.log('Quitting now, goodbye!')
+  const path = require('path');
+  fs.writeFileSync(path.resolve(__dirname, 'tasks.json'), JSON.stringify(tasks));
   process.exit();
 }
 
